@@ -1,40 +1,60 @@
 <?php
 
-require('../controller/controller.php');
+require('controller/controller.php');
 
-if(isset($_SESSION['username']) AND !empty($_SESSION['username'])) //si session active
-{
-	$session = true;
+// if(isset($_SESSION['username']) AND !empty($_SESSION['username'])) //si session active
+// {
+// 	$session = true;
+	$username = 'bob';
 	if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
 	{
-		if($_GET['action'] == 'connexion')
+		$call = htmlspecialchars($_GET['action']);
+		if($call == 'connexion')
 		{
 			//
 		}
-		elseif($_GET['action'] == 'inscription')
+		elseif($call == 'deconnexion')
+		{
+			//
+		}				
+		elseif($call == 'inscription')
 		{
 			// 
 		}
-		elseif($_GET['action'] == 'reinit')
+		elseif($call == 'reinit')
 		{
 			//
 		}
-		elseif($_GET['action'] == 'acteur' AND isset($_GET['act']) AND !empty($_GET['act'])) // page acteur
+		elseif($call == 'accueil')
 		{
+			actorlist();
+		}		
+		elseif($call == 'acteur' AND isset($_GET['act']) AND !empty($_GET['act'])) // page acteur
+		{
+			actorfull($_GET['act'],'bob');
 			if(isset($_GET['add']) AND $_GET['add'] == 1) // demande d'ajout de commentaire
 			{
 				//
 			}
 		}
-		elseif($_GET['action'] == 'profil')
+		elseif($call == 'comment' AND isset($_GET['act']) AND !empty($_GET['act']))
+		{
+			if(isset($_GET['add']) AND $_GET['add'] == 1 AND isset($_POST['new_comment']))
+			{
+				$comment = htmlspecialchars($_POST['new_comment']);
+				$actor_id = htmlspecialchars($_GET['act']);
+				addComment($actor_id,$username,$comment);												
+			}
+		}		
+		elseif($call == 'profil')
 		{
 			//
 		}
-		elseif($_GET['action'] == 'mentions-legales')
+		elseif($call == 'mentions-legales')
 		{
 			//
 		}
-		elseif($_GET['action'] == 'contact')
+		elseif($call == 'contact')
 		{
 			//
 		}				
@@ -47,9 +67,9 @@ if(isset($_SESSION['username']) AND !empty($_SESSION['username'])) //si session 
 	{
 		// action non saisie -> vers accueil
 	}
-}
-else
-{
-	$session = false;
-	// vers formulaire de connexion
-}
+// }
+// else
+// {
+// 	$session = false;
+// 	// vers formulaire de connexion
+// }

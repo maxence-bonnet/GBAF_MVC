@@ -185,7 +185,7 @@ h1, h2, h3, h4
 	margin-bottom:1em;
 	height:250px;
 	width:100%;
-	background:url(logos/illustration.jpg);
+	background:url(../images/logos/illustration.jpg);
 	box-shadow:0px 0px 7px 0px black;
 	border-radius:1em;
 	display:flex;
@@ -731,7 +731,7 @@ h4
 	position:relative;
 	top:0px;
 }
-.add_post
+.add_comment
 {
 	display:flex;
 	flex-direction:column;
@@ -739,18 +739,18 @@ h4
 	margin:auto;
 	padding:1em;
 }
-.add_post label
+.add_comment label
 {
 	margin:1em;
 }
-.add_post textarea
+.add_comment textarea
 {
 	margin:1em;
 	resize:vertical;
 	max-height:500px;
 	min-height:200px;
 }
-.add_post input[type="submit"]
+.add_comment input[type="submit"]
 {
 	margin:auto;
 	width:20%;

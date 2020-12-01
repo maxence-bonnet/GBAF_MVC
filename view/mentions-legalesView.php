@@ -1,0 +1,1 @@
+<?php $title = 'Mention Légales' ; ?>
