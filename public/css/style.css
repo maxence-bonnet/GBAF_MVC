@@ -1,0 +1,1123 @@
+/* === GLOBAL === */
+@font-face
+{
+	font-family: 'Poppins';
+	src: url('font/Poppins-Bold.otf');
+}
+html
+{
+	scroll-behavior: smooth;
+	font-family: Georgia;
+	font-size:16px;
+}
+body
+{
+	margin:auto;
+	height:1000px;
+}
+h1, h2, h3, h4
+{
+	font-family: Poppins;
+	text-transform:uppercase;
+}
+.content /* everything between header and footer */
+{
+	min-height:80%;
+	background:#EEEEEE;
+	display:flex;
+	flex-direction:column;
+}
+/* === HEADER CONTENT === */
+.header_content
+{
+	width:100%;
+	height:10%;
+	background:#AAA;
+	box-shadow :inset 0px 0px 40px -20px rgba(130, 130, 130, 0.52);
+	display:flex;
+}
+.logo_gbaf 
+{
+	height:90%;
+	margin:auto;
+	margin-left:5%;
+}
+.logo_gbaf img
+{
+	height:100%;
+	width:auto;
+}
+.user_ref
+{
+	display:flex;
+	justify-content:space-evenly;
+	align-items:center;
+	padding-right:1em;
+}
+.inscription_link
+{
+	display:flex;
+	align-items:center;
+	margin-right:5%;
+}
+.user_photo
+{
+	width:50px;
+	height:50%;
+	text-align:right;
+	margin:auto;
+}
+.user_photo img
+{
+	height:100%;
+	width:auto;
+	border-radius:100%;
+	box-shadow:1px 1px 5px 1px black;
+	transition: .4s;
+}
+.user_photo img:hover
+{
+	transform:scale(1.05);
+	transition: .4s;
+}
+.user_name a, .inscription_link a
+{
+	text-decoration:none;
+	font-weight:bold;
+	font-size:1em;
+	color:#000;
+	transition: .5s;
+}
+.user_name a:hover, .inscription_link a:hover
+{
+	color:#195891;
+	transition: .3s;
+}
+.header_content p
+{
+	display:inline-block;
+	margin-right:1em;
+	margin-left:1em; 
+}
+.deconnection_form input
+{
+	font-family: Georgia;
+	font-size:1em;
+	padding:0.5px;
+	padding-right:1em;
+	padding-left:1em;
+	border:none;
+	border-radius:12px;
+	box-shadow:1px 1px 4px 0px #666;
+	min-height:25px;
+	transition: .5s;
+}
+.deconnection_form input:hover
+{
+	box-shadow:0px 0px 1px 0px #666, inset 1px 1px 4px #666;
+}
+/* === FOOTER CONTENT === */
+.footer_content
+{
+	width:100%;
+	height:10%;
+	background:#AAA;
+	box-shadow :inset 0px 0px 40px -20px rgba(130, 130, 130, 0.52);
+	display:flex;
+}
+.footer_content p
+{
+	margin:auto;
+	color:black;
+	font-size:1em;
+}
+.footer_content p a
+{
+	text-decoration:none;
+	font-weight:bold;
+	color:black;
+	transition: .5s;
+}
+.footer_content p a:hover
+{
+	color:#195891;
+	transition: .2s;
+}
+/* === ACCUEIL CONTENT === */
+
+.accueil_content
+{
+
+}
+.presentation_section
+{
+	background:#FFF;
+	box-shadow: inset 0px 0px 10px -5px #A3A3A3;
+	display:flex;
+	flex-direction:column;
+	padding:2% 5%;
+}
+.presentation_section h1
+{
+	margin-bottom:0;
+	font-weight:bold;
+}
+.presentation_section p, .actors_list_intro > p
+{
+	text-align:justify;
+	font-size:1.2em;
+}
+.actors_list_section
+{
+	background:#FFF;
+	box-shadow: inset 0px 0px 10px -5px #A3A3A3;
+	display:flex;
+	padding: 2% 5%;
+	flex-direction:column;
+}
+.actors_list_intro
+{
+	margin-bottom:1em;
+}
+.illustration
+{
+	margin-top:1em;
+	margin-bottom:1em;
+	height:250px;
+	width:100%;
+	background:url(logos/illustration.jpg);
+	box-shadow:0px 0px 7px 0px black;
+	border-radius:1em;
+	display:flex;
+	flex-direction:column;
+	justify-content:flex-end;
+}
+.illustration_logos_container
+{
+	background:rgba(255,255,255,0.8);
+	margin-bottom:1em;
+	display:flex;
+	justify-content:center;	
+}
+.illustration_logos_container a
+{
+	margin-right:auto;
+	margin-left:auto;
+	max-height: 40px;
+	max-width: 12%;
+	display:flex;
+	flex-direction:column;
+	justify-content:flex-end;
+	transition: 0.5s ease-in-out;
+}
+.illustration_logos_container a:hover
+{
+	transform: scale(1.1);
+	transition: 0.5s ease-in-out;
+}
+.illustration_logos_container a img
+{
+	margin:auto;
+	max-width:90%;
+	max-height: 95%;
+}
+.accueil_content form
+{
+
+	width:66%;
+	margin:auto;
+	margin-top:10%;
+}
+.accueil_content fieldset
+{
+	width:90%;
+	height:90%;
+	margin:auto;
+	display:flex;
+	padding-top:5%;
+	padding-bottom:5%;
+	flex-direction:column;
+	border:none;
+	border-radius:1em;
+	box-shadow:0 0 10px black;
+}
+.accueil_content legend
+{
+	margin:auto;
+	font-size:2em;
+	padding-left:2em;
+	padding-right:2em;
+	background:#FFF;
+	box-shadow:0 0 2px black;
+	text-align:center;
+}
+.accueil_content label, .accueil_content input
+{
+	width:50%;
+	margin:auto;
+}
+.accueil_content label
+{
+	width:90%;
+}
+.accueil_content input
+{
+	margin-top: .5em;
+	margin-bottom:1em;
+	height:2em;
+}
+.accueil_content label
+{
+	text-align:center;
+	margin-bottom:0.8em;
+}
+.accueil_content a
+{
+	text-decoration:none;
+	text-align:center;
+	color:black;
+	transition:.5s;
+}
+.accueil_content a:hover
+{
+	color:#195891;;
+	transition:.3s;
+}
+.connection_link
+{
+	display:flex;
+	margin:auto;
+	font-weight:bold;
+}
+.connection_link p
+{
+	margin:0;
+	margin-left:1em;
+	margin-right:1em;
+}
+.accueil_content .long_legend
+{
+	font-size:1.5em;
+}
+.accueil_content form p
+{
+	text-align:center;
+}
+.accueil_content input[type="submit"]
+{
+	width:40%;
+	height:3em;
+	margin-top:3em;
+	margin-bottom:3em;
+}
+.actor
+{
+	margin:auto;
+	margin-bottom:2em;
+	padding:0;
+	width:100%;
+	border-radius:.5em;
+	background:#DDD;
+	display:flex;
+	flex-direction:column;
+}
+.actor_logo_n_desc
+{
+	display:flex;
+}
+.actor_logo
+{
+	max-width:33%;
+	height:auto;
+	margin:1% 2% 1% 1%;
+}
+.actor_logo img
+{
+	width:100%;
+	border-radius:2em;
+}
+.actor_description
+{
+	margin-top:1%;
+}
+.actor_description p
+{
+	margin-right:10%;
+	text-align:justify;
+	font-size:1.1em;
+}
+.actor h3
+{
+	margin-top:0;
+}
+.actor_external_link
+{
+	text-decoration:none;
+	color:black;
+	font-weight:bold;
+	transition: .5s;
+}
+.actor_external_link:hover
+{
+	color:#195891;
+	transition: .3s;
+}
+.actor_read_more
+{
+	text-align:center;
+	align-self:flex-end;
+	color:black;
+	font-size:1.1em;
+	margin-bottom:1%;
+	margin-right:1%;
+	padding:0.5em;
+	padding-right:1em; 
+	padding-left:1em;
+	border-radius:.5em;
+	background:rgb(250,250,250,0.7);
+	box-shadow:1px 1px 4px 1px grey;
+	transition:box-shadow .2s ease-in-out, background .5s ease-in-out;
+}
+.actor_read_more:hover
+{
+	box-shadow: 0px 0px 2px 0px grey, inset 1px 1px 3px 0px grey;
+	background:rgb(255,255,255,0.9);
+	transition:box-shadow .2s ease-in-out, background .5s ease-in-out;
+}
+/* === PROFIL CONTENT === */
+.profile_content
+{
+	background:#FFF;
+}
+.profile_content form
+{
+	font-size:1.25em;
+	width:80%;
+	margin:auto;
+	margin-top:5%;
+	margin-bottom:5%;
+}
+.profile_content fieldset
+{
+	border-radius:2em;
+	width:100%;
+	height:90%;
+	margin:auto;
+	display:flex;
+	padding-top:5%;
+	padding-bottom:5%;
+	flex-direction:column;
+	border:none;
+	box-shadow:0 0 10px black;
+}
+.profile_content legend
+{
+	margin:auto;
+	font-size:2em;
+	padding-left:2em;
+	padding-right:2em;
+	background:#FFF;
+	box-shadow:0 0 2px black;
+}
+.profile_content HR
+{
+	margin:2em auto;
+
+}
+.actual_profile
+{
+	display:flex;
+	justify-content:space-around;
+}
+.actual_profile_part1
+{
+	display:flex;
+	flex-direction:column;
+	justify-content:start;
+}
+.actual_profile_part1 p
+{
+	margin:auto;
+	margin-left:0;
+}
+.actual_profile .avatar
+{
+	display:flex;
+	flex-direction:column;
+}
+.actual_profile_part2 > div > img
+{
+	margin:auto;
+	border-radius:100%;
+}
+.update_profile
+{
+	display:flex;
+	justify-content:space-around;
+}
+.update_profile h5
+{
+	font-size: 1.2em;
+	margin-top:2em;
+	margin-bottom:1em;
+}
+.update_profile_part1, .update_profile_part2
+{
+	display:flex;
+	flex-direction:column;
+}
+.update_profile label
+{
+	margin-bottom:0.5em;
+}
+.profile_content fieldset input[type="file"]
+{
+	font-size:0.8em;
+}
+.profile_content fieldset > input[type="submit"]
+{
+	font-size:1em;
+	width:30%;
+	margin:auto;
+	margin-top:3em;
+	margin-bottom:3em;
+}
+/* === INSCRIPTION CONTENT === */
+.inscription_content
+{
+	
+}
+.inscription_content form
+{
+	width:66%;
+	margin:auto;
+	margin-top:5%;
+	margin-bottom:5%;
+}
+.inscription_content fieldset
+{
+	width:90%;
+	height:90%;
+	margin:auto;
+	display:flex;
+	padding-top:5%;
+	padding-bottom:5%;
+	flex-direction:column;
+	border:none;
+	border-radius:1em;
+	box-shadow:0 0 10px black;
+}
+.inscription_content legend
+{
+	margin:auto;
+	font-size:2em;
+	padding-left:2em;
+	padding-right:2em;
+	background:#FFF;
+	box-shadow:0 0 2px black;
+}
+legend
+{
+	border-radius:1em;
+}
+.inscription_content label
+{
+	width:70%;
+	margin:auto;
+}
+.inscription_content input
+{
+	width:50%;
+	margin:auto;
+}
+.inscription_content input
+{
+	margin-bottom:1em;
+	height:2em;
+}
+.inscription_content label
+{
+	text-align:center;
+	margin-bottom:0.8em;
+}
+.inscription_content input[type="submit"]
+{
+	width:40%;
+	height:3em;
+	margin-top:3em;
+}
+.inscription_content p
+{
+	text-align:center;
+	margin-top:-0.5em;
+}
+label .lower_italic
+{
+	font-size:0.8em;
+	font-style:italic;
+}
+input::placeholder
+{
+	font-style:italic;	
+}
+/* === ACTEUR CONTENT === */
+.actor_content
+{
+	padding: 2% 5%;
+}
+.actor_full
+{
+	margin:auto;
+	margin-top:2%;
+	padding:0;
+	width:100%;
+	border-radius:3em;
+	background:#DDD;
+	display:flex;
+	flex-direction:column;
+	margin-bottom:1em;
+}
+.actor_full_logo
+{
+	text-align:center;
+	padding:2% 5%;
+}
+.actor_full_logo img
+{
+	max-width:60%;
+	height:auto;
+	border-radius:1em;
+}
+.actor_full_description
+{
+	padding:2% 5%;
+	padding-top:0;
+}
+.actor_full_description p
+{
+	font-size:1.2em;
+}
+.actor_like_management
+{
+	max-width:94%;
+	margin-right:3%;
+	font-size: 1em;
+	display:flex;
+	justify-content:flex-end;
+	flex-wrap:wrap;
+	margin-left:auto;
+	align-items:center;
+	margin-bottom:2em;
+}
+.case_commented, .actor_like_management > a, .actor_like_mention, .actor_like
+{
+	margin-left:.5em;
+	margin-right:.5em;
+	margin-bottom:.5em;
+	display:inline-block;
+	background:#DDD;
+	height:1.1em;
+	border-radius:1em;
+	padding:1em;
+}
+.actor_like_mention p, .case_commented_sub p
+{
+	margin:auto;
+}
+p.splitter
+{
+	margin:auto;
+	margin-right:.5em;
+	margin-left:.5em;
+}
+.actor_like
+{
+	justify-content:center;
+	align-items:center;
+}
+.actor_like_management a
+{
+	text-decoration:none;
+	color:black;
+	transition:.5s;
+	font-weight:bold;
+}
+.actor_like_management a:hover
+{
+	color:#195891;
+	transition:.5s;
+}
+.actor_like_management p
+{
+	font-style:italic;
+}
+.actor_like
+{
+	display:inline-block;
+	margin-bottom:0.5em;
+	padding:1em;
+}
+.actor_like a
+{
+	display:flex;
+	flex-direction:row;
+}
+.actor_like_sub, .case_commented_sub, .actor_like_mention_sub
+{
+	display:flex;
+}
+.actor_like_sub p
+{
+	margin:auto;
+	margin-right:.5em;
+	margin-left:.5em;
+}
+.like_button, .dislike_button
+{
+	display:inline-block;
+	max-height:1.1em;
+	width:auto;
+	transition:ease-in-out;
+}
+.like_button:hover, .dislike_button:hover
+{
+	animation-name: move;
+	animation-duration: 1s;
+	transition:ease-in-out;
+}
+@keyframes move
+{ 
+    33% { transform: rotate(-5deg) ; }  
+    66% { transform: rotate(10deg) ; }
+    100% { transform: rotate(-5deg) ; }  
+} 
+.actor_like_mention
+{
+	padding:1em;
+	display:inline-block;
+}
+h4
+{
+	margin-top:0;
+	font-size:1.5em;
+	margin-left:3%;
+}
+.post
+{
+	border-radius:10px;
+	background:#DDD;
+	padding:1em;
+	padding-top:.5em;
+	margin-top:1em;
+	width:80%;
+	margin-right:auto;
+	margin-left:3%;
+}
+.post_section p
+{
+	margin:.5em;
+}
+.user_post_ref
+{
+	font-size:1em;
+	font-weight:600;
+}
+.post_photo img
+{
+	max-height:60px;
+	width:auto;
+	border-radius:100%;
+	float:right;
+	position:relative;
+	top:0px;
+}
+.add_post
+{
+	display:flex;
+	flex-direction:column;
+	width:50%;
+	margin:auto;
+	padding:1em;
+}
+.add_post label
+{
+	margin:1em;
+}
+.add_post textarea
+{
+	margin:1em;
+	resize:vertical;
+	max-height:500px;
+	min-height:200px;
+}
+.add_post input[type="submit"]
+{
+	margin:auto;
+	width:20%;
+}
+/* === CONTACT CONTENT === */
+.contact_content
+{
+}
+/* === MENTIONS LEGALES CONTENT === */
+.mentions_legales_content
+{
+}
+/* === QUERIES TABELET (769px-900px) ====*/
+@media all and (max-width: 900px)
+{
+	html
+	{
+		font-size:20px;
+	}
+	.user_ref
+	{
+		font-size:16px;
+	}
+	h1
+	{
+		font-size:26px;
+	}
+	h2
+	{
+		font-size:24px;
+	}
+	h3
+	{
+		font-size:20px;
+	}
+	h4
+	{
+		font-size:22px;
+	}
+	.accueil_content form, .inscription_content form
+	{
+		width:90%;
+		margin-top:auto;
+	}
+	.inscription_content form
+	{
+		margin-top:2%;
+	}
+	.inscription_content legend, .profile_content legend, .accueil_content legend, .connection_form legend
+	{
+		font-size:1.4em;
+	}
+	.accueil_content legend
+	{
+		font-size:1.6em;
+	}
+	.accueil_content .long_legend
+	{
+		font-size:1.3em;
+	}
+	.inscription_content input, .accueil_content input
+	{
+		width:60%;
+	}
+	.profile_content fieldset
+	{
+		font-size:16px;
+	}
+	.connection_link
+	{
+		font-size:.8em;
+	}
+	.presentation_section p, .actors_list_intro p
+	{
+		padding-left:5%;
+		padding-right:5%;
+	}
+	.actor_logo
+	{
+		min-width:30%;	
+		height:auto;
+		margin:3% 4% 3% 3%;
+	}
+	.actor
+	{
+		font-size:.8em;
+	}
+	.actor_full_description p
+	{
+		font-size:1.4em;
+		text-align:justify;
+	}
+	.actor_like_management
+	{
+		flex-direction:column;
+		align-items:flex-end;
+		font-size:16px;
+	}
+	.user_post_ref
+	{
+		font-size:16px;
+	}
+}
+/* === QUERIES PHONE (481px-768px) ====*/
+@media screen and (max-width: 768px)
+{
+	html
+	{
+		font-size:18px;
+	}
+	.user_ref
+	{
+		font-size:14px;
+	}
+	h1
+	{
+		font-size:24px;
+	}
+	h2
+	{
+		font-size:22px;
+	}
+	h3
+	{
+		font-size:18px;
+	}
+	h4
+	{
+		font-size:20px;
+	}
+	.inscription_link
+	{
+		justify-content:center;
+		margin:auto;
+	}
+	.actor_full
+	{
+		border-radius:1em;
+	}
+	.presentation_section p, .actors_list_intro p
+	{
+		padding-left:3%;
+		padding-right:3%;
+	}
+	.actor_logo
+	{
+		max-width:25%;
+		height:auto;
+		margin:2% 3% 2% 2%;
+	}
+	.actor_logo img
+	{
+		width:100%;
+		border-radius:1em;
+	}
+	.actor
+	{
+		font-size:.8em;
+	}
+	.actor_full_description p
+	{
+		font-size:1.2em;
+	}
+	.actor_description
+	{
+		font-size:1.3em;
+	}
+	.actor_like_management
+	{
+		flex-direction:column;
+		align-items:flex-end;
+		font-size:14px;
+	}
+	.inscription_content input, .accueil_content input
+	{
+		width:75%;
+	}
+	.post
+	{
+		margin:auto;
+		margin-bottom:.5em;
+		width:90%;
+		font-size:16px;
+	}
+	.illustration
+	{
+		height:0;
+		min-height:200px;
+	}
+	.illustration_logos_container
+	{
+		margin:auto;
+		flex-wrap:wrap;
+		padding:3%;
+	}
+	.illustration_logos_container a
+	{
+		max-height:80px;
+		max-width:25%;
+		margin:auto;
+	}
+	.illustration_logos_container a:nth-child(1) img
+	{
+		max-width:60%
+	}
+	.profile_content form
+	{
+		font-size:14px;
+		width:97%;
+		margin:auto;
+	}
+	.profile_content fieldset
+	{
+		width:90%;
+	}
+	.profile_content input[type="text"], .profile_content input[type="password"]
+	{
+		max-width:75%;
+	}
+	.profile_content .actual_profile img
+	{
+		width:100px;
+		height:100px;
+	}
+	.profile_content fieldset > input[type="submit"]
+	{
+		height:2em;
+		width:50%;
+	}
+}
+
+/* === QUERIES PHONE (< 480px) ====*/
+
+@media screen and (max-width: 480px)
+{
+	.header_content
+	{
+		height:20%;
+		flex-direction:column;
+	}
+	.logo_gbaf
+	{
+		height:60%;
+		margin:auto;
+	}
+	.user_ref
+	{
+		padding:0;
+		height:40%;
+		justify-content:center;
+		margin:auto;
+	}
+	.user_photo
+	{
+		max-height:60%;
+		width:auto;
+		margin:0;
+	}
+	.user_photo a
+	{
+		display:block;
+		height:100%;
+	}
+	.user_ref form
+	{
+		/*margin-right:5%;*/
+	}
+	.actor_content
+	{
+		padding:0;
+	}
+	.actor_full
+	{
+		border-radius:1em;
+	}
+	.actor_logo_n_desc
+	{
+		display:flex;
+		flex-direction:column;
+	}
+	.actor a
+	{
+		margin-right:1em;
+		margin-bottom:1em;
+		font-size:1.2em;
+	}
+	.actor_like_management
+	{
+		margin-right:0;
+	}
+	.case_commented, .actor_like, .actor_like_mention
+	{
+		height:2em;
+		justify-content:center;		
+	}
+ 	html
+	{
+		font-size:18px;
+	}
+	.user_ref
+	{
+		font-size:14px;
+	}
+	h1
+	{
+		font-size:24px;
+	}
+	h2
+	{
+		font-size:22px;
+	}
+	h3
+	{
+		font-size:18px;
+	}
+	h4
+	{
+		font-size:20px;
+	}
+	.presentation_section p, .actors_list_intro p
+	{
+		padding-left:3%;
+		padding-right:3%;
+	}
+	.illustration
+	{
+		min-height:150px;
+	}
+	.actor_logo
+	{
+		min-width:90%;	
+		margin:auto;
+		margin-top:.5em;
+		margin-bottom:.5em;
+		height:auto;
+	}
+	.actor
+	{
+		font-size:.7em;
+	}
+	.actor_description
+	{
+		padding:1em;
+	}
+	.actor_description p
+	{
+		margin:auto;
+		font-size:1.2em;
+	}
+	.actor_full_description p
+	{
+		font-size:1.2em;
+	}
+	.actor_like_management
+	{
+		flex-direction:column;
+		align-items:flex-end;
+		font-size:14px;
+	}
+	.post
+	{
+		width:90%;
+		font-size:16px;
+	}
+	.profile_content .actual_profile img
+	{
+		width:100px;
+		height:100px;
+	}
+}
