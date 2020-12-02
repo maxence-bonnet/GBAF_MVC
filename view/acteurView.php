@@ -23,13 +23,13 @@
 					else // déjà commenté cet acteur -> Mention + lien pour supprimer le commentaire existant
 					{
 						?>
-							<div class="case_commented"><div class="case_commented_sub"><p>Vous avez commenté ce partenaire</p><p class="splitter"> | </p><a href="index.php?action=acteur&amp;act=<?= $actor; ?>&amp;delete=1">Supprimer mon commentaire</a></div></div>
+							<div class="case_commented"><div class="case_commented_sub"><p>Vous avez commenté ce partenaire</p><p class="splitter"> | </p><a href="index.php?action=comment&amp;act=<?= $actor_id; ?>&amp;delete=1">Supprimer mon commentaire</a></div></div>
 						<?php
 					}
 	    		?>				    		
 	    		<div class="actor_like">
 	    			<div class="actor_like_sub">    			
-		    			<a href="../traitement/trait_like.php?act=<?= $actor ?>&amp;like=1" title="<?php 
+		    			<a href="index.php?action=acteur&amp;act=<?= $actor_id ?>&amp;like=1" title="<?php 
 		    			if(!empty($like_list))
 		    			{
 			    			foreach($like_list as $name)
@@ -40,7 +40,7 @@
 		    			?>">
 		    				<?= '(' . $like_number . ') ' ?>Je recommande <img src="public/images/logos/like.png" class="like_button" alt="like_button"/></a>
 		    			<p class="splitter"> | </p> 
-		    			<a href="../traitement/trait_like.php?act=<?= $actor ?>&amp;like=2" title="<?php
+		    			<a href="index.php?action=acteur&amp;act=<?= $actor_id ?>&amp;like=2" title="<?php
 		    			if(!empty($dislike_list))
 		    			{
 			    			foreach($dislike_list as $name)
@@ -54,9 +54,16 @@
 	    		</div>
 	    		<?php 
 	    				if($show) // On affiche si l'utilisateur aime ou non le partenaire avec possibilité de réinitialiser
-	    				{
-							echo '<div class="actor_like_mention"><div class="actor_like_mention_sub"><p>' . $show . '</p><p class="splitter"> |  </p>
-							<a href="../traitement/trait_like.php?act=<?= $actor ?>&amp;like=3">Réinitialiser</a></div></div>';
+	    				{ 
+	    					?>
+							<div class="actor_like_mention">
+								<div class="actor_like_mention_sub">
+									<p><?= $show ?></p>
+									<p class="splitter"> |  </p>
+									<a href="index.php?action=acteur&amp;act=<?= $actor_id ?>&amp;like=3">Réinitialiser</a>
+								</div>
+							</div>
+							<?php
 	    				}
 	    		?>			    	
 	    	</div>
@@ -76,22 +83,22 @@
 			if(isset($_SESSION['existing_comment']))
 			{
 				    echo '<p style=color:red;>Vous avez déjà commenté cet acteur, pour commenter à nouveau, supprimez votre précédent commentaire.</p>';
-				    unset($_SESSION['existing_post']);
+				    unset($_SESSION['existing_comment']);
 			}
 			if($comments)
 			{										
 				while($comment = $comments->fetch())
 				{
-					$nom = htmlspecialchars($comment['nom']);
-					$prenom = htmlspecialchars($comment['prenom']);
-					$date = preg_replace("#([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}:[0-9]{2}:[0-9]{2})#","Le $3/$2/$1",$comment['date_add']);
-					$post = htmlspecialchars($comment['post']);
-					$photo = htmlspecialchars($comment['photo']);
+					$com_nom = htmlspecialchars($comment['nom']);
+					$com_prenom = htmlspecialchars($comment['prenom']);
+					$com_date = preg_replace("#([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}:[0-9]{2}:[0-9]{2})#","Le $3/$2/$1",$comment['date_add']);
+					$com_post = htmlspecialchars($comment['post']);
+					$com_photo = htmlspecialchars($comment['photo']);
 					?>
 						<div class="post">
-							<div class="post_photo"><img src="public/images/uploads/<?= $photo ; ?>" alt="photo"/></div>
-							<p class="user_post_ref"><?= $date; ?>, <?= $prenom; ?> <?= $nom; ?> a commenté :</p>
-							<p><?= nl2br($post); ?></p>
+							<div class="post_photo"><img src="public/images/uploads/<?= $com_photo ; ?>" alt="photo"/></div>
+							<p class="user_post_ref"><?= $com_date; ?>, <?= $com_prenom; ?> <?= $com_nom; ?> a commenté :</p>
+							<p><?= nl2br($com_post); ?></p>
 						</div>
 					<?php
 				}
@@ -107,7 +114,7 @@
 			if($showform)
 			{
 				?>
-				<form class="add_comment" action="index.php?action=comment&amp;act=<?= $actor; ?>&amp;add=1" method="post">
+				<form class="add_comment" action="index.php?action=comment&amp;act=<?= $actor_id; ?>&amp;add=1" method="post">
 					<label for="new_comment">Votre commentaire : </label><textarea name="new_comment" id="new_comment"></textarea>
 					<input type="submit" name="new_comment_submit" value="Publier"/>
 				</form>

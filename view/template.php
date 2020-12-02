@@ -15,7 +15,8 @@
 				<a href="index.php?action=accueil"><img src="public/images/logos/gbaf.png" title="GBAF"alt="GBAF logo"/></a>
 			</div>
 			<?php
-				if(1 == 1) // session active
+				$session = false; // en attendant
+				if($session) // session active
 				{ 
 					?>
 					<div class="user_ref">

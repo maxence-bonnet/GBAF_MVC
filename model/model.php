@@ -73,9 +73,10 @@ function isconnected() // vérifie si une connexion est active
 function getUserId($username) // récupère l'identifiant utilisateur via username
 {
 	$db = dbConnect();
-	$user_id = $db->prepare('SELECT id_user FROM account WHERE username = :username');
-	$user_id->execute(array('username' => $username));
-	return $user_id;
+	$result = $db->prepare('SELECT id_user FROM account WHERE username = :username');
+	$result->execute(array('username' => $username));
+	$user = $result->fetch();
+	return $user;
 }
 
 function existUsername($username) // vérifie l'existance d'un nom d'utilisateur
@@ -177,48 +178,20 @@ function newComment($user_id,$actor_id,$comment) // ajoute un commentaire
 	$db = dbConnect();
 	$query = $db->prepare('INSERT INTO post(id_user, id_actor, post) VALUES(:id_user, :id_actor, :comment)');
 	$work = $query->execute(array('id_user' => $user_id, 'id_actor' => $actor_id, 'comment' => $comment));
+	$query->closeCursor();
 	return $work;
 }
 
-function delComment($user_id,$actor_id) // supprime le commentaire existant
+function deleteComment($user_id,$actor_id) // supprime le commentaire existant
 {	
 	$db = dbConnect();
 	$query = $db->prepare('DELETE FROM post WHERE id_user = :id_user AND id_actor = :id_actor');
-	$work = $query->execute(array('id_user' => $id_user, 'id_actor' => $actor));
+	$work = $query->execute(array('id_user' => $user_id, 'id_actor' => $actor_id));
+	$query->closeCursor();
 	return $work;
 }
 
 // =============== Gestion des likes / dislikes ===============
-
-function countLikes($actor_id) // Compteur de mention "je recommande"
-{
-	$db = dbConnect();
-	$result = $db->prepare('SELECT COUNT(*) AS like_number FROM vote WHERE id_actor = :actor AND vote = :like_');
-	$result->execute(array('actor' => $actor_id, 'like_' => 'like'));
-	$data = $result->fetch();
-	$result->closeCursor();
-	$like_number = $data['like_number'];
-	if(!$data)
-	{
-		$like_number = 0;
-	}
-	return $like_number;
-}
-
-function countDislikes($actor_id) // Compteur de mention "je déconseille"
-{
-	$db = dbConnect();
-	$result = $db->prepare('SELECT COUNT(*) AS dislike_number FROM vote WHERE id_actor = :actor AND vote = :dislike_');
-	$result->execute(array('actor' => $actor_id, 'dislike_' => 'dislike'));
-	$data = $result->fetch();
-	$result->closeCursor();
-	$dislike_number = $data['dislike_number'];
-	if(!$data)
-	{
-		$dislike_number = 0;
-	}
-	return $dislike_number;
-}
 
 function checkLike($actor_id,$username) // vérifie si l'utilisateur actuel a déjà ajouté une mention ("je recommande / déconseille")
 {
@@ -232,26 +205,33 @@ function checkLike($actor_id,$username) // vérifie si l'utilisateur actuel a d�
 	$result->execute(array('username' => $username, 'actor' => $actor_id));
 	$data = $result->fetch();
 	$result->closeCursor();
-	if(isset($data['vote'])) // il y a soit un like soit un dislike
+	if(!$data)
 	{
-		$vote = htmlspecialchars($data['vote']);
-		if($vote == 'like')
-		{
-			$show = 'Vous recommandez ce partenaire';
-		}
-		if($vote == 'dislike')
-		{
-			$show = 'Vous déconsillez ce partenaire';
-		}
+		$like_state = false;
 	}
 	else
 	{
-		$show = false;
+		$like_state = $data['vote'];
 	}
-	return $show;
+	return $like_state;
 }
 
-function listLikers($actor_id) // Dresse la liste des utilisateurs qui recommandent l'acteur donné
+function countLikes($actor_id,$like_state) // Compteur de mention "je recommande" / "Je déconseille" (en fonction de $likestate)
+{
+	$db = dbConnect();
+	$result = $db->prepare('SELECT COUNT(*) AS like_number FROM vote WHERE id_actor = :actor AND vote = :like_');
+	$result->execute(array('actor' => $actor_id, 'like_' => $like_state));
+	$data = $result->fetch();
+	$result->closeCursor();
+	$like_number = $data['like_number'];
+	if(!$data)
+	{
+		$like_number = 0;
+	}
+	return $like_number;
+}
+
+function listLikers($actor_id,$like_state) // Dresse la liste des utilisateurs qui recommandent ou déconseillent (en fonction de $likestate) l'acteur donné
 {
 	$db = dbConnect();
 	$result = $db->prepare('SELECT account.id_user, nom, prenom, vote.id_user, id_actor, vote 
@@ -260,7 +240,7 @@ function listLikers($actor_id) // Dresse la liste des utilisateurs qui recommand
 							ON account.id_user = vote.id_user
 							WHERE id_actor = :actor
 							AND vote = :like_');
-	$result->execute(array('actor' => $actor_id, 'like_' => 'like'));
+	$result->execute(array('actor' => $actor_id, 'like_' => $like_state));
 	while($data = $result->fetch())
 	{
 		$like_list[] = $data['nom'] . ' ' . $data['prenom'] ;
@@ -269,20 +249,29 @@ function listLikers($actor_id) // Dresse la liste des utilisateurs qui recommand
 	return $like_list;
 }
 
-function listDislikers($actor_id) // Dresse la liste des utilisateurs qui déconseillent l'acteur donné
+function addMention($actor_id,$user_id,$like_request) // Ajoute la mention (en fonction de $likestate)
 {
 	$db = dbConnect();
-	$result = $db->prepare('SELECT account.id_user, nom, prenom, vote.id_user, id_actor, vote 
-							FROM vote
-							INNER JOIN account
-							ON account.id_user = vote.id_user
-							WHERE id_actor = :actor
-							AND vote = :like_');
-	$result->execute(array('actor' => $actor_id, 'like_' => 'dislike'));
-	while($data = $result->fetch())
-	{
-		$dislike_list[] = $data['nom'] . ' ' . $data['prenom'] ;
-	}																									
-	$result->closeCursor();
-	return $dislike_list;
+	$query = $db->prepare('INSERT INTO vote(id_user, id_actor, vote) VALUES(:id_user, :actor, :vote)');
+	$work = $query->execute(array('id_user' => $user_id, 'actor' => $actor_id, 'vote' => $like_request));
+	$query->closeCursor();
+	return $work;
+}
+
+function updateMention($actor_id,$user_id,$like_request) // Met à jour la mention (en fonction de $likestate)
+{
+	$db = dbConnect();
+	$query = $db->prepare('UPDATE vote SET vote = :vote WHERE id_user = :id_user AND id_actor = :actor');
+	$work = $query->execute(array('vote' => $like_request, 'id_user' => $user_id, 'actor' => $actor_id));
+	$query->closeCursor();
+	return $work;	
+}
+
+function deleteMention($actor_id,$user_id) // Supprime la mention
+{
+	$db = dbConnect();
+	$query = $db->prepare('DELETE FROM vote WHERE id_user = :id_user AND id_actor = :actor');
+	$work = $query->execute(array('id_user' => $user_id, 'actor' => $actor_id));
+	$query->closeCursor();	
+	return $work;
 }
