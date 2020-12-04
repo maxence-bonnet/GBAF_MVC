@@ -324,7 +324,6 @@ function profileUpdateUsername($new_username)// changement d'identifiant
 		$_SESSION['username'] = $new_username;
 		$_SESSION['usernamechanged'] = 1 ; // écriture effectuée						
 	}
-	return 
 }
 
 function profileUpdatePassword($username,$actual_pass,$pass1,$pass2) // changement mot de passe
