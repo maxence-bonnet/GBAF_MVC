@@ -13,7 +13,12 @@
 					{
 						    echo '<p style=color:red;>La modification du mot de passe a bien été prise en compte.</p>';
 						    unset($_SESSION['passchanged']);
-					}							
+					}
+					if(isset($_SESSION['missing_field']))
+					{
+						    echo '<p style=color:red;>Certains champs n\'ont pas été remplis.</p>';
+						    unset($_SESSION['missing_field']);
+					}						
 					if(isset($_SESSION['wrong']))
 					{
 						    echo '<p style=color:red;>Le mot de passe ou l\'identifiant est incorrect.</p>';

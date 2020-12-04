@@ -17,23 +17,35 @@ function dbConnect() // connexion à la base de données
 
 // =============== Connexion d'utilisateur ===============
 
-function authenticateUser($username,$password) // traite une demande de connexion
+function testConnectionRequest($username,$password) // traite une demande de connexion
 {
 	$db = dbConnect();
 	$username = htmlspecialchars($username);
 	$password = htmlspecialchars($password);
-	$result = $db->prepare('SELECT username, password FROM account WHERE username = :username');
+	$result = $db->prepare('SELECT username, password, prenom, nom, photo FROM account WHERE username = :username');
 	$result->execute(array('username' => $username));
 	$content = $result->fetch();
-	$testpass = password_verify($password,$content['password']);
-	if($content AND $testpass)
+	if($content)
 	{
-		return true;
+		$testpass = password_verify($password,$content['password']);
+		if($testpass)
+		{
+			$connection = true;
+			$_SESSION['username'] = $username;
+			$_SESSION['prenom'] = htmlspecialchars($content['prenom']);
+			$_SESSION['nom'] = htmlspecialchars($content['nom']);
+			$_SESSION['photo'] = htmlspecialchars($content['photo']);
+		}
+		else
+		{
+			$connection = false;
+		}
 	}
 	else
 	{
-		return false;
+		$connection = false;
 	}
+	return $connection;
 }
 
 // =============== Inscription ===============

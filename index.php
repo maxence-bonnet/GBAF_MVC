@@ -2,17 +2,13 @@
 session_start();
 require('controller/controller.php');
 
-// if(isset($_SESSION['username']) AND !empty($_SESSION['username'])) //si session active
-// {
-	$username = 'Maitre-Verreux';
-	if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
+if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
+{
+	$call = htmlspecialchars($_GET['action']);
+	if(isset($_SESSION['username']) AND !empty($_SESSION['username'])) //si session active
 	{
-		$call = htmlspecialchars($_GET['action']);
-		if($call == 'connexion')
-		{
-			connection();
-		}
-		elseif($call == 'deconnexion')
+		$username = htmlspecialchars($_SESSION['username']);
+		if($call == 'deconnexion')
 		{
 			deconnection();
 		}				
@@ -80,13 +76,16 @@ require('controller/controller.php');
 			header('Location: index.php?action=accueil');
 		}
 	}
+	elseif($call == 'connexion' AND isset($_GET['try']) AND $_GET['try'] == 1)
+	{
+		connectionRequest();
+	}
 	else
 	{
-		header('Location: index.php?action=accueil');
+		connection();
 	}
-// }
-// else
-// {
-// 
-// 	// vers formulaire de connexion
-// }
+}
+else
+{
+	connection();
+}
