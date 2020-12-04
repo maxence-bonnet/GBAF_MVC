@@ -313,7 +313,18 @@ function myProfile($username)
 
 function profileUpdateUsername($new_username)// changement d'identifiant
 {
-	
+	$new_username = htmlspecialchars($new_username);
+	$work = updateUsername($new_username);
+	if(!$work)
+	{
+		$_SESSION['exist'] = 1 ;// erreur dans l'écriture
+	}
+	else
+	{
+		$_SESSION['username'] = $new_username;
+		$_SESSION['usernamechanged'] = 1 ; // écriture effectuée						
+	}
+	return 
 }
 
 function profileUpdatePassword($username,$actual_pass,$pass1,$pass2) // changement mot de passe

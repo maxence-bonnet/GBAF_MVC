@@ -65,8 +65,9 @@ if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
 			{
 				if(isset($_POST['username']) AND !empty($_POST['username'])) 
 				{
-					profileUpdateUsername($new_username);
+					profileUpdateUsername($_POST['username']);
 				}
+
 				if(isset($_POST['actual_pass']) AND !empty($_POST['actual_pass'])
 					 AND isset($_POST['pass1']) AND !empty($_POST['pass1'])
 					 AND isset($_POST['pass2']) AND !empty($_POST['pass2']))
@@ -76,18 +77,18 @@ if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
 					$pass2 = htmlspecialchars($_POST['pass2']);
 					profileUpdatePassword($username,$actual_pass,$pass1,$pass2);
 				}
+
 				if(is_uploaded_file($_FILES['photo']['tmp_name']))
 				{
-					$photo = 
+					$photo = '[...]';
 					profileUpdatePhoto($photo);
-				}
-				
+				}	
+				header('Location: index.php?action=profil');
 			}
 			else
 			{
-
-			}
-			myProfile($username);
+				myProfile($username);
+			}			
 		}
 		elseif($call == 'mentions-legales')
 		{

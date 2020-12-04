@@ -87,7 +87,8 @@ function getUserId($username) // récupère l'identifiant utilisateur via userna
 	$db = dbConnect();
 	$result = $db->prepare('SELECT id_user FROM account WHERE username = :username');
 	$result->execute(array('username' => $username));
-	$user = $result->fetch();
+	$data = $result->fetch();
+	$user = $data['id_user'];
 	return $user;
 }
 
@@ -450,3 +451,22 @@ function testPassword($username,$password)
 	}
 	return $testpass;
 }
+
+function updateUsername($new_username)
+{
+	$user = getUserId($_SESSION['username']);
+	$existing = existUsername($new_username);
+	if($existing)
+	{
+		$work = false ;
+	}
+	else
+	{
+		$db = dbConnect();
+		$query = $db->prepare('UPDATE account SET username = :username WHERE id_user = :user');
+		$work = $query->execute(array('username' => $new_username, 'user' => $user));
+		$query->closeCursor();
+	}
+	return $work;
+}
+

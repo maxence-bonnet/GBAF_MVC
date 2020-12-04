@@ -34,10 +34,10 @@
 								    echo '<p style=color:red;>Ce nom d\'utilisateur existe déjà, veuillez en saisir un autre.</p>';
 								    unset($_SESSION['exist']);
 							}
-							if(isset($_SESSION['short']))
+							if(isset($_SESSION['usernamechanged']))
 							{
-								    echo '<p style=color:red;>Le nom d\'utilisateur saisi est trop court (minimum 3 caractères).</p>';
-								    unset($_SESSION['short']);
+								    echo '<p style=color:red;>Le nom d\'utilisateur a bien été modifié.</p>';
+								    unset($_SESSION['usernamechanged']);
 							}
 							?>
 						<h5>Modifier mon mot de passe</h5>
