@@ -2,6 +2,113 @@
 
 require('model/model.php');
 
+function connection()
+{
+	require('view/connexionView.php');
+}
+
+function deconnection()
+{
+	session_destroy();
+	header('Location: index.php?action=accueil');	
+}
+
+function inscription()
+{
+	require('view/inscriptionView.php');
+}
+
+function reinit($step)
+{
+	if($step == 1)
+	{
+		$content = getReinitContent(1);
+		require('view/reinitView.php');
+	}
+	elseif($step == 3)
+	{
+		if(isset($_POST['answer']) AND isset($_POST['pass1']) AND isset($_POST['pass2']) AND isset($_SESSION['usertemp']))
+		{
+			$username = $_SESSION['usertemp'];
+			$answer = htmlspecialchars($_POST['answer']);		
+			$test = testReinitAns($username,$answer);
+			if(!$test)
+			{
+				$_SESSION['invalid_answer'] = 1 ;
+				header('Location: index.php?action=reinit&fgt=2');
+				// mauvaise réponse à la question secrète
+			}
+			else
+			{
+				$pass1 = htmlspecialchars($_POST['pass1']);
+				$pass2 = htmlspecialchars($_POST['pass2']);
+				$test = testReinitPass($pass1,$pass2);
+				if(!$test)
+				{
+					$_SESSION['invalid_pass_format'] = 1 ;
+					header('Location: index.php?action=reinit&fgt=2');
+					// mauvais format de mot de passe (mais bonne réponse)
+				}
+				else
+				{
+					$work = reinitPass($username,$pass1);
+					if(!$work)
+					{
+						$_SESSION['update_error'] = 1 ;
+						header('Location: index.php?action=reinit&fgt=2');
+						// erreur pendant l'écriture
+					}
+					else
+					{
+						unset($_SESSION['usertemp']);
+						$_SESSION['passchanged'] = 1 ;
+						header('Location: index.php?action=connexion');
+						// succès dans la réinitialisation -> retour à la page de connexion
+					}
+				}
+			}
+		}
+		else
+		{
+			$_SESSION['missing_field'] = 1 ;
+			header('Location: index.php?action=reinit&amp;fgt=2');
+			// manque certains champs
+		}
+	}
+	elseif($step == 2 AND isset($_POST['username']) OR isset($_SESSION['usertemp']))
+	{
+		if(isset($_POST['username']))
+		{
+			$username = htmlspecialchars($_POST['username']);	
+		}
+		else // cas où il y a eu un précédent retour d'erreur
+		{
+			$username = htmlspecialchars($_SESSION['usertemp']);
+		}
+
+		$existing = existUsername($username);
+
+		if(!$existing)
+		{
+			$_SESSION['invalid_user'] = 1 ;
+			header('Location: index.php?action=reinit&amp;fgt=1');
+			// utilisateur inexistant
+		}
+		else
+		{
+			$_SESSION['usertemp'] = $username;
+			$question = getQuestion($username);
+			$content = getReinitContent(2,$question);
+			require('view/reinitView.php');
+		}			
+	}		
+	else
+	{
+		$step = 1;
+		require('view/reinitView.php');
+	}
+}
+
 function actorlist()
 {
 	$actors_info = listActors();

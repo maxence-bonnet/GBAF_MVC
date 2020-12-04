@@ -275,3 +275,136 @@ function deleteMention($actor_id,$user_id) // Supprime la mention
 	$query->closeCursor();	
 	return $work;
 }
+
+// =============== Gestion réinitialisation ===============
+
+function getReinitContent($step,$question = 0)
+{
+	if($step == 1)
+	{
+		if(isset($_SESSION['invalid_user']))
+		{
+			$error_message = '<p style=color:red;text-align:center;>L\'identifiant saisi n\'existe pas.</p>';
+			unset($_SESSION['invalid_user']);
+		}
+		else
+		{
+			$error_message = '';
+		}
+		$content = '<div class="content reinit_content">
+						<form class="connection_form" action="index.php?action=reinit&amp;fgt=2" method="post">
+							<fieldset>
+							<legend class="long_legend">Réinitialiser le mot de passe :</legend>
+
+							<label for="username">Veuillez saisir votre nom d\'utilisateur :</label><input type="text" name="username" id="username"/>
+
+							' . $error_message . '
+
+							<input type="submit" name="submit" value="Valider">					
+							</fieldset>			
+						</form>
+					</div>
+					';
+	}
+	if($step == 2)
+	{
+		if(isset($_SESSION['missing_field']))
+		{
+			$error_message = '<p style=color:red;text-align:center;>Certains champs n\'ont pas été remplis';
+			unset($_SESSION['missing_field']);
+		}		
+		elseif(isset($_SESSION['invalid_answer']))
+		{
+			$error_message = '<p style=color:red;text-align:center;>Mauvaise Réponse</p>';
+			unset($_SESSION['invalid_answer']);
+		}
+		elseif(isset($_SESSION['invalid_pass_format']))
+		{
+			$error_message = '<p style=color:red;text-align:center;>Bonne réponse mais le format des mots de passe de convient pas, veuillez recommencer.</p>';
+			unset($_SESSION['invalid_pass_format']);
+		}
+		else
+		{
+			$error_message = '';
+		}	
+		$content = '<div class="content reinit_content">
+						<form class="connection_form" action="index.php?action=reinit&amp;fgt=3" method="post">
+							<fieldset>
+								<legend class="long_legend">Réinitialiser le mot de passe :</legend>
+									' . $error_message . '
+
+									<label for="answer">' . $question . '</label><input type="text" name="answer" id="answer" required/>
+
+									<label for="pass1">Nouveau mot de passe <span class="lower_italic">(8 caractères, une majuscule, un chiffre et un caractère spécial au minimum)</span> :</label><input type="password" name="pass1" id="pass1" required/>
+
+									<label for="pass2">Confirmation du mot de passe :</label><input type="password" name="pass2" id="pass2" required/>
+
+									<input type="submit" name="submit" value="Changer le mot de passe">
+							</fieldset>			
+						</form>
+					</div>
+					';
+	}
+	return $content;
+}
+
+function getQuestion($username) // Récupère la question secrète de l'utilisateur actuel
+{
+	$db = dbConnect();
+	$result = $db->prepare('SELECT question FROM account WHERE username = :username');
+	$result->execute(array('username' => $username));
+	$data = $result->fetch();
+	$result->closeCursor();
+	if(!$data) // ne devrait pas arriver
+	{
+		$question = '[...]';
+	}
+	else
+	{
+		$question = preg_replace("#(\?)#"," ",htmlspecialchars($data['question']));
+		$question = 'Votre question secrète : ' . $question . ' ?';
+	}
+	return $question;
+}
+
+function testReinitAns($username,$answer) // Teste la validité de la réponse à la question secrète
+{
+	$db = dbConnect();
+	$result = $db->prepare('SELECT reponse FROM account WHERE username = :username');
+	$result->execute(array('username' => $username));
+	$data = $result->fetch();
+	$result->closeCursor();	
+	if(!$data) // ne devrait pas arriver
+	{
+		$test = false;
+	}
+	else
+	{
+		$user_answer = htmlspecialchars($data['reponse']);
+		$test = password_verify($answer,$user_answer );
+	}	
+	return $test;
+}
+
+function testReinitPass($pass1,$pass2) // Vérifie le format et la correspondance des mots de passe	
+{
+	if(preg_match("#(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\d)(?=.*[^A-Za-z\d])#",$pass1) AND $pass1=$pass2) 
+	{
+		$test =  true;
+	}
+	else
+	{
+		$test = false;
+	}
+	return $test;
+}
+
+function reinitPass($username,$pass1)
+{
+	$db = dbConnect();
+	$pass = password_hash($pass1, PASSWORD_DEFAULT);
+	$query = $db->prepare('UPDATE account SET password = :pass WHERE username = :username');
+	$work = $query->execute(array('pass' => $pass,'username' => $username));
+	$query->closeCursor();
+	return $work;
+}

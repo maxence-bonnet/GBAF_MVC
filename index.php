@@ -1,29 +1,36 @@
 <?php
-
+session_start();
 require('controller/controller.php');
 
 // if(isset($_SESSION['username']) AND !empty($_SESSION['username'])) //si session active
 // {
-// 	$session = true;
 	$username = 'Maitre-Verreux';
 	if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
 	{
 		$call = htmlspecialchars($_GET['action']);
 		if($call == 'connexion')
 		{
-			//
+			connection();
 		}
 		elseif($call == 'deconnexion')
 		{
-			//
+			deconnection();
 		}				
 		elseif($call == 'inscription')
 		{
-			// 
+			inscription();
 		}
 		elseif($call == 'reinit')
 		{
-			//
+			if(isset($_GET['fgt']))
+			{
+				$step=$_GET['fgt'];
+				reinit($step);
+			}
+			else
+			{
+				reinit(1);
+			}		
 		}
 		elseif($call == 'accueil')
 		{
@@ -80,6 +87,6 @@ require('controller/controller.php');
 // }
 // else
 // {
-// 	$session = false;
+// 
 // 	// vers formulaire de connexion
 // }
