@@ -20,10 +20,10 @@
 					?>
 					<div class="user_ref">
 						<div class="user_photo">
-							<a href="profil.php"><img src="public/images/uploads/<?= $_SESSION['photo'] ?>" alt="Ma photo de profil" title="Voir mon profil"/></a>
+							<a href="index.php?action=profil"><img src="public/images/uploads/<?= $_SESSION['photo'] ?>" alt="Ma photo de profil" title="Voir mon profil"/></a>
 						</div>
 						<div class="user_name">
-							<a href="profil.php" title="Voir mon profil"><p><?= $_SESSION['prenom'] . ' ' . $_SESSION['nom'] ; ?></p></a>
+							<a href="index.php?action=profil" title="Voir mon profil"><p><?= $_SESSION['prenom'] . ' ' . $_SESSION['nom'] ; ?></p></a>
 						</div>
 						<form class="deconnection_form" action="index.php?action=deconnexion" method="post"><input type="submit" value="deconnexion"/></form>				
 					</div>
@@ -48,7 +48,7 @@
         <!-- FOOTER -->
 
         <div class="footer_content">
-        	<p><a href="../index.php?action=mentions-legales.php"> Mentions légales </a> | <a href="../index.php?action=contact.php">Contact</a></p>
+        	<p><a href="index.php?action=mentions-legales"> Mentions légales </a> | <a href="index.php?action=contact">Contact</a></p>
         </div>
 
     </body>

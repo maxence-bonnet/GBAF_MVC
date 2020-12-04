@@ -268,7 +268,7 @@ h1, h2, h3, h4
 	margin-bottom:1em;
 	height:2em;
 }
-.accueil_content a
+.accueil_content a 
 {
 	text-decoration:none;
 	text-align:center;
@@ -462,6 +462,15 @@ h1, h2, h3, h4
 {
 	display:flex;
 	flex-direction:column;
+	max-width: 45%;
+}
+.update_profile_part1 input
+{
+	max-width:70%;
+}
+.update_profile_part1 p
+{
+	max-width:80%;
 }
 .update_profile label
 {
@@ -480,6 +489,7 @@ h1, h2, h3, h4
 	margin-bottom:3em;
 }
 /* === INSCRIPTION CONTENT === */
+
 .inscription_content
 {
 	

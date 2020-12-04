@@ -252,11 +252,19 @@ function listLikers($actor_id,$like_state) // Dresse la liste des utilisateurs q
 							ON account.id_user = vote.id_user
 							WHERE id_actor = :actor
 							AND vote = :like_');
-	$result->execute(array('actor' => $actor_id, 'like_' => $like_state));
-	while($data = $result->fetch())
+	$work = $result->execute(array('actor' => $actor_id, 'like_' => $like_state));
+	if(!$work)
 	{
-		$like_list[] = $data['nom'] . ' ' . $data['prenom'] ;
-	}																								
+		$like_list[] = '';
+	}
+	else
+	{
+		$like_list[] = '';
+		while($data = $result->fetch())
+		{
+			$like_list[] = $data['nom'] . ' ' . $data['prenom'] ;
+		}	
+	}																							
 	$result->closeCursor();
 	return $like_list;
 }
@@ -419,4 +427,26 @@ function reinitPass($username,$pass1)
 	$work = $query->execute(array('pass' => $pass,'username' => $username));
 	$query->closeCursor();
 	return $work;
+}
+
+// =============== Gestion changement de profil ===============
+
+function testPassword($username,$password)
+{
+	$db = dbConnect();
+	$username = htmlspecialchars($username);
+	$password = htmlspecialchars($password);
+	$result = $db->prepare('SELECT username, password FROM account WHERE username = :username');
+	$result->execute(array('username' => $username));
+	$content = $result->fetch();
+	if($content)
+	{
+		$actual_password = htmlspecialchars($content['password']);
+		$testpass = password_verify($password,$actual_password);
+	}
+	else // ne devrait pas arriver
+	{
+		$testpass = false;
+	}
+	return $testpass;
 }

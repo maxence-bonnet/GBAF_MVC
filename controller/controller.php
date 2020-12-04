@@ -298,10 +298,64 @@ function likeManage($actor_id,$username,$like_request)
 			$work = deleteMention($actor_id,$user_id);
 		}
 
-		if(!$work)
+		if(!$work) 
 		{
-			echo 'Erreur pendant la mise à jour de la mention';
+			echo ' /!\ Erreur pendant la mise à jour de la mention /!\ ';
 		}		
 	}
 	header('Location: index.php?action=acteur&act=' . $actor_id);
+}
+
+function myProfile($username)
+{
+	require('view/profilView.php');
+}
+
+function profileUpdateUsername($new_username)// changement d'identifiant
+{
+	
+}
+
+function profileUpdatePassword($username,$actual_pass,$pass1,$pass2) // changement mot de passe
+{
+	$testpass = testPassword($username,$actual_pass);
+	if($testpass)
+	{
+		$test = testReinitPass($pass1,$pass2);
+		if($test) // écriture
+		{			
+			$work = reinitPass($username,$pass1);
+			if(!$work)
+			{
+				$_SESSION['unknown'] = 1 ;// erreur dans l'écriture
+			}
+			else
+			{
+				$_SESSION['passchanged'] = 1 ; // écriture effectuée						
+			}
+		}
+		else
+		{
+			$_SESSION['invalidpass'] = 1 ;// mauvais format mdp
+		}
+	}
+	else
+	{
+		$_SESSION['wrongpass'] = 1 ; // mauvais mdp
+	}
+}
+
+function profileUpdatePhoto($photo)// changement de photo
+{
+	////////////////////////////////////////////////////////////////////////
+}
+
+function mentions()
+{
+	require('view/mentions-legalesView.php');
+}
+
+function contact()
+{
+	require('view/contactView.php');
 }
