@@ -80,15 +80,14 @@ if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
 
 				if(is_uploaded_file($_FILES['photo']['tmp_name']))
 				{
-					$photo = '[...]';
-					profileUpdatePhoto($photo);
+					profileUpdatePhoto($username,$_FILES['photo']);
 				}	
 				header('Location: index.php?action=profil');
 			}
 			else
 			{
 				myProfile($username);
-			}			
+			}	
 		}
 		elseif($call == 'mentions-legales')
 		{
@@ -97,7 +96,7 @@ if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
 		elseif($call == 'contact')
 		{
 			contact();
-		}				
+		}						
 		else
 		{
 			header('Location: index.php?action=accueil');
@@ -107,6 +106,14 @@ if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
 	{
 		connectionRequest();
 	}
+	elseif($call == 'mentions-legales')
+	{
+		mentions();
+	}
+	elseif($call == 'contact')
+	{
+		contact();
+	}	
 	else
 	{
 		connection();

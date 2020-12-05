@@ -65,22 +65,22 @@
 							<?php
 							if(isset($_SESSION['invalidpass']))
 							{
-								    echo '<p style=color:red;>Le mot de passe saisi ne convient pas au format demandé.</p>';
+								    echo '<p style=color:red;>Le mot de passe saisi ne convient pas au format demandé ou ne correspondent pas.</p>';
 								    unset($_SESSION['invalidpass']);
 							}
 							?>
-						<label for="pass2">Confirmation du nouveau mot de passe :</label><input type="password" name="pass2" id="pass2">
-							<?php
-							if(isset($_SESSION['passnotmatching']))
-							{
-								    echo '<p style=color:red;>Les deux mots de passe saisis ne correspondent pas.</p>';
-								    unset($_SESSION['passnotmatching']);
-							}					
-							?>										
+						<label for="pass2">Confirmation du nouveau mot de passe :</label><input type="password" name="pass2" id="pass2">									
 					</div>
 					<div class="update_profile_part2">
 						<input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
 						<label for="photo">Choisir une photo de profil : </label><input type="file" name="photo" id="photo"/>
+							<?php
+							if(isset($_SESSION['invalid_file']))
+							{
+								    echo '<p style=color:red;>Le fichier envoyé est invalide, ou supérieur à 2Mo.</p>';
+								    unset($_SESSION['invalid_file']);
+							}					
+							?>	
 					</div>							
 				</div>
 			<input type="submit" name="update_profile_submit" value="Modifier ces paramètres">
