@@ -52,7 +52,40 @@ function testConnectionRequest($username,$password) // traite une demande de con
 
 function testRegistration($last_name,$first_name,$username,$pass1,$pass2,$question,$answer)
 {
+	$existing = existUsername($username);
+	if($existing)
+	{
+		$error[] = 'exist';
+	}
+		if(strlen($username) < 3)
+	{
+		// username trop court
+		$error[] = 'short';
+	}
+	if(!preg_match("#(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\d)(?=.*[^A-Za-z\d])#",$pass1) OR strlen($pass1) < 8)
+	{
+		// format mot de passe invalide
+		$error[] = 'invalidpass';
+	}
+	if($pass1 != $pass2)
+	{
+		// les mots de passe ne correspondent pas
+		$error[] = 'passnotmatching';
+	}
 
+	if(isset($error))
+	{
+		foreach($error as $value => $key)
+		{
+			$_SESSION[$key] = 1;
+		}
+		$work = false;
+	}
+	else
+	{
+		$work = true;
+	}
+	return $work;
 }
 
 
@@ -60,7 +93,7 @@ function registerUser($last_name,$first_name,$username,$password,$question,$answ
 {
 	$db = dbConnect();
 	$password = password_hash($_POST['pass1'],PASSWORD_DEFAULT);
-	$answer = password_hash($_POST['question'],PASSWORD_DEFAULT);
+	$answer = password_hash($_POST['answer'],PASSWORD_DEFAULT);
 	$query = $db->prepare('INSERT INTO account(nom, prenom, username, password, question, reponse) VALUES(:nom, :prenom, :username, :password, :question, :answer)');
 	$work = $query->execute(array('nom' => $last_name, 'prenom' => $first_name, 'username' => $username, 'password' => $password, 'question' => $question, 'answer' => $answer));
 	return $work;
@@ -402,7 +435,19 @@ function testReinitAns($username,$answer) // Teste la validité de la réponse �
 	else
 	{
 		$user_answer = htmlspecialchars($data['reponse']);
-		$test = password_verify($answer,$user_answer );
+		$test = password_verify($answer,$data['reponse']);
+		echo 'réponse : ' . $answer . '<br/>';
+		echo 'data[reponse] (hash) : ' . $data['reponse'] . '<br/>';
+		echo 'user_answer (hash) : ' . $user_answer . '<br/>';
+
+		if($test)
+		{
+			echo 'Oui <br/>' ;
+		}
+		else
+		{
+			echo 'Non <br/>' ;
+		}
 	}	
 	return $test;
 }
@@ -492,9 +537,6 @@ function addPhoto($username,$photo,$upload_ext) // Ajoute la photo
 	$filename = rand(0,99999999999) . preg_replace("#\s#","_",$filename);
 	$uploadfile = $uploaddir . $filename;
 	$work = move_uploaded_file($photo['tmp_name'], $uploadfile);
-	echo $photo['tmp_name'] . '<br/>' ;
-	echo $filename . '<br/>' ;
-	echo $uploadfile . '<br/>' ;
 	if(!$work)
 	{
 		$work = false;

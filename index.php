@@ -1,7 +1,6 @@
 <?php
 session_start();
 require('controller/controller.php');
-
 if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
 {
 	$call = htmlspecialchars($_GET['action']);
@@ -12,22 +11,6 @@ if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
 		{
 			deconnection();
 		}				
-		elseif($call == 'inscription')
-		{
-			inscription();
-		}
-		elseif($call == 'reinit')
-		{
-			if(isset($_GET['fgt']))
-			{
-				$step=$_GET['fgt'];
-				reinit($step);
-			}
-			else
-			{
-				reinit(1);
-			}		
-		}
 		elseif($call == 'accueil')
 		{
 			actorlist();
@@ -106,6 +89,29 @@ if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
 	{
 		connectionRequest();
 	}
+	elseif($call == 'inscription')
+	{	
+		if(isset($_POST) AND !empty($_POST)) // Tous les champs sont remplis
+		{		
+			inscription($_POST);
+		}
+		else
+		{
+			inscriptionPage();
+		}
+	}
+	elseif($call == 'reinit')
+	{
+		if(isset($_GET['fgt']))
+		{
+			$step=$_GET['fgt'];
+			reinit($step);
+		}
+		else
+		{
+			reinit(1);
+		}		
+	}		
 	elseif($call == 'mentions-legales')
 	{
 		mentions();
@@ -116,10 +122,10 @@ if(isset($_GET['action']) AND !empty($_GET['action'])) // requête d'une action
 	}	
 	else
 	{
-		connection();
+		connectionPage();
 	}
 }
 else
 {
-	connection();
+	connectionPage();
 }

@@ -681,6 +681,7 @@ p.splitter
 }
 .like_button, .dislike_button
 {
+	margin-left:.5em;
 	display:inline-block;
 	max-height:1.1em;
 	width:auto;

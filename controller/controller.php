@@ -2,7 +2,7 @@
 
 require('model/model.php');
 
-function connection()
+function connectionPage()
 {
 	require('view/connexionView.php');
 }
@@ -31,18 +31,54 @@ function connectionRequest()
 	}
 }
 
-function deconnection()
+function deconnection() // deconnexion
 {
 	session_destroy();
 	header('Location: index.php?action=accueil');	
 }
 
-function inscription()
+function inscriptionPage()
 {
 	require('view/inscriptionView.php');
 }
 
-function reinit($step)
+function inscription($post) // Inscription
+{
+	if(!empty($post['last_name']) AND
+	 !empty($post['first_name']) AND 
+	 !empty($post['username']) AND 
+	 !empty($post['pass1']) AND 
+	 !empty($post['pass2']) AND 
+	 !empty($post['question']) AND 
+	 !empty($post['answer'])) // Tous les champs sont remplis
+	{
+		foreach($post as $value => $key) // htmlspecialchars pour tout le monde
+		{
+			$post[$value] = htmlspecialchars($_POST[$value]);
+		}
+		$work = testRegistration($post['last_name'],$post['first_name'],$post['username'],$post['pass1'],$post['pass2'],$post['question'],$post['answer']);
+		if($work)
+		{
+			$work = registerUser($post['last_name'],$post['first_name'],$post['username'],$post['pass1'],$post['question'],$post['answer']);
+			if(!$work)
+			{
+				$_SESSION['unknown_error'] = 1 ;
+			}
+			else
+			{
+				$_SESSION['success'] = 1 ;
+				header('Location: index.php?action=accueil');
+			}			
+		}
+	}
+	else
+	{
+		$_SESSION['missing_field'] = 1 ;
+	}
+	require('view/inscriptionView.php');
+}
+
+function reinit($step) // Gestion de la réinitialisation du mot de passe via question secrète
 {
 	if($step == 1)
 	{
@@ -198,10 +234,9 @@ function addComment($actor_id,$username,$comment)
 	}
 
 	$user = getUserId($username);
-	$user_id = $user['id_user'];
+	$user_id = $user;
 	if(existUserComment($actor_id,$username)) // L'utilisateur a déjà commenté
 	{
-		session_start();
 		$_SESSION['existing_comment'] = true;
 		header('Location: index.php?action=acteur&act=' . $actor_id);
 	}
@@ -214,7 +249,6 @@ function addComment($actor_id,$username,$comment)
 		}
 		else // bon déroulement
 		{
-			session_start();
 			$_SESSION['posted'] = true;
 			header('Location: index.php?action=acteur&act=' . $actor_id);
 		}		
@@ -230,7 +264,7 @@ function delComment($actor_id,$username)
 	}
 	
 	$user = getUserId($username);
-	$user_id = $user['id_user'];
+	$user_id = $user;
 	if(existUserComment($actor_id,$username)) // L'utilisateur a déjà commenté
 	{
 		$work = deleteComment($user_id,$actor_id);
@@ -260,7 +294,7 @@ function likeManage($actor_id,$username,$like_request)
 	}
 	
 	$user = getUserId($username);
-	$user_id = $user['id_user'];
+	$user_id = $user;
 	$like_state = checkLike($actor_id,$username);
 	if(!$like_state)
 	{

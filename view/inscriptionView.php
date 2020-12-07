@@ -5,14 +5,19 @@
 ?>
 
 <div class="content inscription_content">
-				<form class="inscription_form" action="../traitement/trait_inscription.php" method="post">
+				<form class="inscription_form" action="index.php?action=inscription" method="post">
 					<fieldset>
 						<legend>Inscription</legend>
 							<?php
-							if(isset($_SESSION['entrymissing']))
+							if(isset($_SESSION['missing_field']))
 							{
 								    echo '<p style=color:red;>Un ou plusieurs champs sont manquants.</p>';
-								    unset($_SESSION['entrymissing']);
+								    unset($_SESSION['missing_field']);
+							}
+							if(isset($_SESSION['unknown_error']))
+							{
+								    echo '<p style=color:red;>Erreur inconnue.</p>';
+								    unset($_SESSION['unknown_error']);
 							}
 							?>
 							<label for="last_name">Nom :</label><input type="text" name="last_name" id="last_name" placeholder="Dupont" required/>
